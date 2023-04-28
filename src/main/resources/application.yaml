@@ -8,5 +8,19 @@ spring:
       discovery:
         heartbeat:
           enabled: true # 心跳机制
+          ttl: 10s # 项目向consul发送心跳的间隔
+        enabled: true # 是否拉取服务
+        register: true # 是否注册服务
+        instance-id: custom-service-id # 自定义instance-id
+        service-name: myprefix-${spring.application.name} # 自定义service-name
+        metadata:
+          my-field: myValue
+          another-field: anotherValue
+  config:
+    import: 'optional:consul:'
 server:
   port: 8080
+
+management:
+  server:
+    port: 4452
