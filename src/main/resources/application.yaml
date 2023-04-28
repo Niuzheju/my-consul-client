@@ -8,3 +8,5 @@ spring:
       discovery:
         heartbeat:
           enabled: true # 心跳机制
+server:
+  port: 8080
