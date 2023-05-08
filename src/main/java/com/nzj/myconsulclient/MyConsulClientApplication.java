@@ -1,14 +1,17 @@
 package com.nzj.myconsulclient;
 
+import com.nzj.myconsulclient.config.MyLoadBalancerConfig;
 import com.nzj.myconsulclient.feignclient.MyConsulClientAFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+@LoadBalancerClient(name = "my-consul-client", configuration = MyLoadBalancerConfig.class)
 @EnableFeignClients
 @RestController
 @SpringBootApplication
