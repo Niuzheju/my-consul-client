@@ -1,6 +1,8 @@
 spring:
   application:
     name: my-consul-client
+  profiles:
+    active: dev
   cloud:
     consul:
       host: 192.168.56.101
@@ -13,10 +15,20 @@ spring:
         register: true # 是否注册服务
         instance-id: custom-service-id # 自定义instance-id
         service-name: myprefix-${spring.application.name} # 自定义service-name
-        metadata:
+        metadata: # 元数据
           my-field: myValue
           another-field: anotherValue
-  config:
+      config: # consul分布式配置
+        enabled: true # 是否开启
+        prefixes: # 前缀
+          - configuration
+        default-context: apps # 上下文，默认为项目名，application可以被所有项目使用
+        profile-separator: ':' # profile分隔符，和prefixes,default-context一起组成配置路径
+        format: key_value # 配置格式
+        watch:
+          delay: 1500 # 自动刷新的间隔时间
+        fail-fast: false # 配置功能不可用时是否报错，false可以使项目忽略错误正常启动
+  config: # 分布式配置地址，默认和consul配置的地址一样
     import: 'optional:consul:'
 server:
   port: 8080
