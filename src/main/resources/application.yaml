@@ -28,8 +28,45 @@ spring:
         watch:
           delay: 1500 # 自动刷新的间隔时间
         fail-fast: false # 配置功能不可用时是否报错，false可以使项目忽略错误正常启动
+    openfeign: # openfeign配置
+      client:
+        config:
+          default:
+            connect-timeout: 5000
+            read-timeout: 5000
+      circuitbreaker: # openfeign中断路器配置
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+        group:
+          enabled: true
+    loadbalancer: # loadbalancer配置
+      enabled: true
   config: # 分布式配置地址，默认和consul配置的地址一样
     import: 'optional:consul:'
+resilience4j: # resilience4j配置
+  circuitbreaker:
+    configs:
+      default:
+        register-health-indicator: true
+        sliding-window-size: 10
+        sliding-window-type: count_based
+        wait-duration-in-open-state: 5000
+        permitted-number-of-calls-in-half-open-state: 2
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 5s
+        cancel-running-future: true
+  ratelimiter:
+    configs:
+      default:
+        limit-for-period: 10
+        limit-refresh-period: 500ms
+        timeout-duration: 3s
+
+
+
 server:
   port: 8080
 
