@@ -14,7 +14,7 @@ spring:
         enabled: true # 是否拉取服务
         register: true # 是否注册服务
         instance-id: custom-service-id # 自定义instance-id
-        service-name: myprefix-${spring.application.name} # 自定义service-name
+        service-name: ${spring.application.name} # 自定义service-name
         metadata: # 元数据
           my-field: myValue
           another-field: anotherValue

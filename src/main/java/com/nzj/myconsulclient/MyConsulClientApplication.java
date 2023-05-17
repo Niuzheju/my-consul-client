@@ -1,6 +1,7 @@
 package com.nzj.myconsulclient;
 
 import com.nzj.myconsulclient.feignclient.MyConsulClientAFeign;
+import com.nzj.myconsulclient.feignclient.MyGatewayFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -25,8 +26,12 @@ public class MyConsulClientApplication {
     @Autowired
     private MyConsulClientAFeign myConsulClientAFeign;
 
+    @SuppressWarnings("rawtypes")
     @Autowired
     private CircuitBreakerFactory circuitBreakerFactory;
+
+    @Autowired
+    private MyGatewayFeign myGatewayFeign;
 
     @Value("${name}")
     private String name;
@@ -75,6 +80,12 @@ public class MyConsulClientApplication {
     public String circuitBreakerWithFeign() {
         String s = myConsulClientAFeign.getException();
         return "feign client中使用circuit breaker，调用远程服务，结果: " + s;
+    }
+
+    @RequestMapping("/home6")
+    public String gatewayWithFeign() {
+        String s = myGatewayFeign.home();
+        return "feign client中使用gateway，调用远程服务，结果: " + s;
     }
 
     public static void main(String[] args) {

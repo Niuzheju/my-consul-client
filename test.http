@@ -12,4 +12,7 @@ GET http://localhost:8080/home4
 ###
 GET http://localhost:8080/home5
 
+###
+GET http://localhost:8080/home6
+
 

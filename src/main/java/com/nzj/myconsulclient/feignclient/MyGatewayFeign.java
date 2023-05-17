@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @Author niuzheju
  * @Date 16:11 2023/5/8
  */
-@LoadBalancerClient(name = "my-consul-client-a")
-@FeignClient(value = "my-consul-client-a")
-@CircuitBreaker(name = "my-consul-client-a", fallbackMethod = "defaultFallback")
-public interface MyConsulClientAFeign {
+@LoadBalancerClient(name = "my-gateway")
+@FeignClient(value = "my-gateway", path = "/my-consul-client-a")
+@CircuitBreaker(name = "my-gateway", fallbackMethod = "defaultFallback")
+public interface MyGatewayFeign {
 
-    Logger LOGGER = LoggerFactory.getLogger(MyConsulClientAFeign.class);
+    Logger LOGGER = LoggerFactory.getLogger(MyGatewayFeign.class);
 
     @GetMapping("/")
     String home();
-
-    @GetMapping("/getException")
-    String getException();
 
     default String defaultFallback(Throwable throwable) {
         LOGGER.error("调用远程服务失败, cause: ", throwable);
