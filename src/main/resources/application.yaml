@@ -49,21 +49,22 @@ resilience4j: # resilience4j配置
     configs:
       default:
         register-health-indicator: true
-        sliding-window-size: 10
-        sliding-window-type: count_based
-        wait-duration-in-open-state: 5000
-        permitted-number-of-calls-in-half-open-state: 2
+        sliding-window-size: 100 # 滑动窗口
+        sliding-window-type: count_based # 滑动窗口计算方式
+        wait-duration-in-open-state: 5000 # 断路器由打开变为半开的等待时间
+        permitted-number-of-calls-in-half-open-state: 20 # 断路器半开状态下允许的请求数量
+        failure-rate-threshold: 50 # 阈值，断路器关闭时失败比例大于等于50%断路器会打开，断路器半开时失败比例小于50%断路器会关闭
   timelimiter:
     configs:
       default:
-        timeout-duration: 5s
-        cancel-running-future: true
+        timeout-duration: 5s # 超时时间
+        cancel-running-future: false # 如果此时正在进行异步调用，是否要取消
   ratelimiter:
     configs:
       default:
-        limit-for-period: 10
-        limit-refresh-period: 500ms
-        timeout-duration: 3s
+        limit-for-period: 10 # 在一次刷新周期内，允许执行的最大请求数
+        limit-refresh-period: 500ms # 限流器每隔limitRefreshPeriod刷新一次，将允许处理的最大请求数量重置为limitForPeriod
+        timeout-duration: 3s # 线程等待权限的默认等待时间
 
 
 
